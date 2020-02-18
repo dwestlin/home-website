@@ -8,7 +8,7 @@ export default function NewExpenseForm() {
   const [name, setName] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
 
-  const handleSubmit = (e: any) => {
+  const addExpense = (e: any) => {
     e.preventDefault();
     let id = uuidv4();
     dispatch({ type: "ADD", payload: { id, name, amount } });
@@ -17,7 +17,7 @@ export default function NewExpenseForm() {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={addExpense}>
       <Form.Field>
         <label>Namn</label>
         <Input
