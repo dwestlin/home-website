@@ -12,7 +12,7 @@ export default function App(props: any): JSX.Element {
             <Link to="/">Start</Link>
           </Menu.Item>
           <Menu.Item>
-            <Link to="/expense">Ekonomi</Link>
+            <Link to="/expense">Ekonomis</Link>
           </Menu.Item>
           <Menu.Item>
             <Link to="/recipe">Recept</Link>
