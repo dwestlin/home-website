@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import uuidv4 from "uuid/v4";
 import { Form, Input, Button } from "semantic-ui-react";
 import { Expense } from "../../Contexts/expense";
-// import { IExpenseProps } from '../Interfaces';
 
 export default function NewExpenseForm() {
   const { dispatch } = useContext(Expense);

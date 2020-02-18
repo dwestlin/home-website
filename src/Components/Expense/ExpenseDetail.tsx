@@ -6,6 +6,18 @@ import { IExpense } from "../../Interface";
 export default function ExpenseDetail(props: IExpense): JSX.Element {
   const { state, dispatch } = React.useContext(Expense);
   const { name, amount, id } = props;
+
+  const removeExpense = () => {
+    const newExpense = state.expenses.filter((fav: any) => fav.id !== id);
+
+    let dispatchObj = {
+      type: "REMOVE",
+      payload: newExpense
+    };
+
+    dispatch(dispatchObj);
+  };
+
   return (
     <List.Item>
       <List.Icon
@@ -15,16 +27,7 @@ export default function ExpenseDetail(props: IExpense): JSX.Element {
         animated="true"
         verticalAlign="middle"
         onClick={() => {
-          const withoutExpense = state.expenses.filter(
-            (fav: any) => fav.id !== id
-          );
-
-          let dispatchObj = {
-            type: "REMOVE",
-            payload: withoutExpense
-          };
-
-          dispatch(dispatchObj);
+          removeExpense();
         }}
       />
       <List.Content>
