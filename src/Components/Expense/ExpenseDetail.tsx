@@ -5,10 +5,10 @@ import { IExpense } from "../../Interface";
 
 export default function ExpenseDetail(props: IExpense): JSX.Element {
   const { state, dispatch } = React.useContext(Expense);
-  const { name, amount, id } = props;
+  const { name, amount, id }: IExpense = props;
 
   const removeExpense = () => {
-    const newExpense = state.expenses.filter((fav: any) => fav.id !== id);
+    const newExpense = state.expenses.filter((fav: IExpense) => fav.id !== id);
 
     let dispatchObj = {
       type: "REMOVE",
