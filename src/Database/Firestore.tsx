@@ -3,14 +3,14 @@ import "firebase/app";
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
-  apiKey: "AIzaSyBo-1siFWyeZW4NeFFQpRIU5R6fQlt5BHA",
-  authDomain: "home-website-5bc5f.firebaseapp.com",
-  databaseURL: "https://home-website-5bc5f.firebaseio.com",
-  projectId: "home-website-5bc5f",
-  storageBucket: "home-website-5bc5f.appspot.com",
-  messagingSenderId: "153385994674",
-  appId: "1:153385994674:web:a6a6cfa8fa620e11e8fcab",
-  measurementId: "G-9B4KZ65FGP"
+  apiKey: process.env.FIRESTORE_API_KEY,
+  authDomain: process.env.FIRESTORE_authDomain,
+  databaseURL: process.env.FIRESTORE_databaseURL,
+  projectId: process.env.FIRESTORE_projectId,
+  storageBucket:  process.env.FIRESTORE_storageBucket,
+  messagingSenderId: process.env.FIRESTORE_messagingSenderId,
+  appId: process.env.FIRESTORE_appId,
+  measurementId: process.env.FIRESTORE_measurementId
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
