@@ -18,7 +18,8 @@ export default function ExpensePage(): JSX.Element {
   const [sortBy, setSortby] = React.useState("TITLE_ASC");
 
   React.useEffect(() => {
-      db.collection("expenses")
+      
+      const unsubscribe:any = db.collection("expenses")
       .orderBy(SORT_OPTIONS[sortBy].column, SORT_OPTIONS[sortBy].direction)
       .get()
       .then(snapshot => {
@@ -28,8 +29,12 @@ export default function ExpensePage(): JSX.Element {
           amount: doc.data().amount
         }));
         dispatch({ type: "FETCH_DATA", payload: newExpenses });
+        return () => {
+          unsubscribe()
+        }
       });
-  }, [sortBy, dispatch]);
+      
+  }, [sortBy,dispatch]);
 
   const showTotalExpenses = (): any => {
     let totalCosts = state.expenses.reduce(function(sum: IExpense, d: any) {
