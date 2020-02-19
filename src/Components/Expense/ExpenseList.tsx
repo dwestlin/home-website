@@ -22,7 +22,7 @@ export default function ExpenseList(): JSX.Element {
     db.collection("expenses")
       .doc(props.id)
       .delete()
-      .catch((err: any) => console.log("ERR", err));
+      .catch((err: any) => console.log("ERROR", err));
   };
 
   return state.expenses.map((exp: any) => {
