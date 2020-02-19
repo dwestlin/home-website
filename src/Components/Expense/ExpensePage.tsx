@@ -1,22 +1,41 @@
 import React from "react";
 import { IExpense } from "../../Interface";
-import {
-  Segment,
-  Divider,
-  Statistic,
-  List
-} from "semantic-ui-react";
+import { Segment, Divider, Statistic, List } from "semantic-ui-react";
 import { Expense } from "../../Contexts/expense";
 import NewExpenseForm from "./NewExpenseForm";
 import ExpenseList from "./ExpenseList";
+import { db } from "../../Database/Firestore";
+
+const SORT_OPTIONS: any = {
+  COST_ASC: { column: "amount", direction: "asc" },
+  COST_DESC: { column: "amount", direction: "desc" },
+  TITLE_ASC: { column: "name", direction: "asc" },
+  TITLE_DESC: { column: "name", direction: "desc" }
+};
 
 export default function ExpensePage(): JSX.Element {
-  const { state } = React.useContext(Expense);
+  const { state, dispatch } = React.useContext(Expense);
+  const [sortBy, setSortby] = React.useState("TITLE_ASC");
+
+  React.useEffect(() => {
+      db.collection("expenses")
+      .orderBy(SORT_OPTIONS[sortBy].column, SORT_OPTIONS[sortBy].direction)
+      .get()
+      .then(snapshot => {
+        const newExpenses = snapshot.docs.map(doc => ({
+          id: doc.id,
+          name: doc.data().name,
+          amount: doc.data().amount
+        }));
+        dispatch({ type: "FETCH_DATA", payload: newExpenses });
+      });
+  }, [sortBy, dispatch]);
 
   const showTotalExpenses = (): any => {
-    let totalCosts = state.expenses.reduce(function (sum: IExpense, d: any) {
+    let totalCosts = state.expenses.reduce(function(sum: IExpense, d: any) {
       return sum + d.amount;
     }, 0);
+
     return state.expenses.length ? (
       <Statistic.Group horizontal>
         <Statistic>
@@ -25,24 +44,26 @@ export default function ExpensePage(): JSX.Element {
         </Statistic>
       </Statistic.Group>
     ) : (
-        ""
-      );
+      ""
+    );
   };
-
 
   return (
     <Segment>
       <NewExpenseForm />
-      {state.expenses.length ? (
-        <List relaxed>
-          <Divider hidden />
-          <ExpenseList />
-          <Divider />
-        </List>
-      ) : (
-          ""
-        )}
-      {showTotalExpenses()}
+      <Divider hidden />
+      <select value={sortBy} onChange={e => setSortby(e.currentTarget.value)}>
+        <option value="TITLE_ASC">Namn (a-z)</option>
+        <option value="TITLE_DESC">Namn (z-a)</option>
+        <option value="COST_DESC">Pris högt till lågt</option>
+        <option value="COST_ASC">Pris låg till högt</option>
+      </select>
+      <List relaxed>
+        <Divider hidden />
+        <ExpenseList />
+        <Divider />
+        {showTotalExpenses()}
+      </List>
     </Segment>
   );
 }

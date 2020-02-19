@@ -1,23 +1,33 @@
 import React, { useContext, useState } from "react";
-import uuidv4 from "uuid/v4";
 import { Form, Input, Button } from "semantic-ui-react";
 import { Expense } from "../../Contexts/expense";
+import { db } from "../../Database/Firestore";
 
 export default function NewExpenseForm() {
   const { dispatch } = useContext(Expense);
   const [name, setName] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
 
-  const addExpense = (e: any) => {
+  const onSubmit = (e: any) => {
     e.preventDefault();
-    let id = uuidv4();
-    dispatch({ type: "ADD", payload: { id, name, amount } });
-    setName("");
-    setAmount(0);
+
+    let data = {
+      name: name,
+      amount: amount
+    };
+
+    db.collection("expenses")
+      .add(data)
+      .then((docs: any) => {
+        let id = docs.id;
+        dispatch({ type: "ADD", payload: { id, ...data } });
+        setName("");
+        setAmount(0);
+      });
   };
 
   return (
-    <Form onSubmit={addExpense}>
+    <Form onSubmit={onSubmit}>
       <Form.Field>
         <label>Namn</label>
         <Input
