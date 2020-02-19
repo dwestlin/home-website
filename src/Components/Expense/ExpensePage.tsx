@@ -1,10 +1,12 @@
 import React from "react";
-import { IExpense } from "../../Interface";
-import { Segment, Divider, Statistic, List } from "semantic-ui-react";
+
+import { Segment, Container, Grid, Divider } from "semantic-ui-react";
 import { Expense } from "../../Contexts/expense";
 import NewExpenseForm from "./NewExpenseForm";
-import ExpenseList from "./ExpenseList";
+import NewBudgetForm from "./NewBudgetForm";
+import { showTable } from "./functions";
 import { db } from "../../Database/Firestore";
+import { getBudgetInfo } from "./functions";
 
 const SORT_OPTIONS: any = {
   COST_ASC: { column: "amount", direction: "asc" },
@@ -18,8 +20,8 @@ export default function ExpensePage(): JSX.Element {
   const [sortBy, setSortby] = React.useState("TITLE_ASC");
 
   React.useEffect(() => {
-      
-      const unsubscribe:any = db.collection("expenses")
+    const unsubscribe: any = db
+      .collection("expenses")
       .orderBy(SORT_OPTIONS[sortBy].column, SORT_OPTIONS[sortBy].direction)
       .get()
       .then(snapshot => {
@@ -30,45 +32,42 @@ export default function ExpensePage(): JSX.Element {
         }));
         dispatch({ type: "FETCH_DATA", payload: newExpenses });
         return () => {
-          unsubscribe()
-        }
+          unsubscribe();
+        };
       });
-      
-  }, [sortBy,dispatch]);
+  }, [sortBy, dispatch]);
 
-  const showTotalExpenses = (): any => {
-    let totalCosts = state.expenses.reduce(function(sum: IExpense, d: any) {
-      return sum + d.amount;
-    }, 0);
-
-    return state.expenses.length ? (
-      <Statistic.Group horizontal>
-        <Statistic>
-          <Statistic.Value>{totalCosts}</Statistic.Value>
-          <Statistic.Label>SEK</Statistic.Label>
-        </Statistic>
-      </Statistic.Group>
-    ) : (
-      ""
-    );
-  };
-
-  return (
-    <Segment>
-      <NewExpenseForm />
-      <Divider hidden />
+  const getSelectOptions = () => {
+    return (
       <select value={sortBy} onChange={e => setSortby(e.currentTarget.value)}>
         <option value="TITLE_ASC">Namn (a-z)</option>
         <option value="TITLE_DESC">Namn (z-a)</option>
         <option value="COST_DESC">Pris högt till lågt</option>
         <option value="COST_ASC">Pris låg till högt</option>
       </select>
-      <List relaxed>
+    );
+  };
+
+  return (
+    <Segment>
+      <Container>
+        <Grid columns={2} stackable>
+          <NewBudgetForm />
+          <NewExpenseForm />
+        </Grid>
         <Divider hidden />
-        <ExpenseList />
-        <Divider />
-        {showTotalExpenses()}
-      </List>
+      </Container>
+
+      {getSelectOptions()}
+      <Divider hidden />
+      <Container>
+        <Grid columns={2} stackable>
+          {showTable()}
+          {showTable()}
+        </Grid>
+      </Container>
+
+      {getBudgetInfo(state)}
     </Segment>
   );
 }

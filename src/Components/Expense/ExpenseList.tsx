@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Expense } from "../../Contexts/expense";
-import { List } from "semantic-ui-react";
+import { List, Button, Table, Icon } from "semantic-ui-react";
 import { IExpense } from "../../Interface";
 import { db } from "../../Database/Firestore";
 
@@ -27,22 +27,29 @@ export default function ExpenseList(): JSX.Element {
 
   return state.expenses.map((exp: any) => {
     return (
-      <List.Item key={exp.id}>
-        <List.Icon
-          name="delete"
-          size="large"
-          color="red"
-          animated="true"
-          verticalAlign="middle"
-          onClick={() => {
-            removeExpense(exp);
-          }}
-        />
-        <List.Content>
-          <List.Header>{exp.name}</List.Header>
-          <List.Description>{exp.amount} kr</List.Description>
-        </List.Content>
-      </List.Item>
+      <Table.Row key={exp.id}>
+        <Table.Cell>{exp.name}</Table.Cell>
+        <Table.Cell>{exp.amount}kr</Table.Cell>
+        <Table.Cell>Utgift</Table.Cell>
+        <Table.Cell textAlign="right">
+          <Button size="tiny" color="green">
+            <Button.Content visible>
+              <Icon name="pen square" size="large" onClick={() => {}} />
+            </Button.Content>
+          </Button>
+          <Button size="tiny" color="red">
+            <Button.Content visible>
+              <Icon
+                name="trash"
+                size="large"
+                onClick={() => {
+                  removeExpense(exp);
+                }}
+              />
+            </Button.Content>
+          </Button>
+        </Table.Cell>
+      </Table.Row>
     );
   });
 }
