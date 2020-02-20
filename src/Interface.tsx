@@ -1,19 +1,20 @@
-export interface IExpense {
+export interface IBudget {
   id: string;
   name: string;
-  amount: number;
-}
-
-export interface IExpenseState {
-  expenses: Array<IExpense>;
-}
-
-export interface IExpenseAction {
+  amount: any;
   type: string;
-  payload: Array<IExpense> | any;
+}
+
+export interface IBudgetState {
+  expenses: Array<IBudget>;
+}
+
+export interface IBudgetAction {
+  type: string;
+  payload: Array<IBudget> | any;
 }
 
 export interface IExpenseProps {
-  expenses: IExpense[];
-  store: { state: IExpenseState; dispatch: any };
+  expenses: IBudget[];
+  store: { state: IBudgetState; dispatch: any };
 }

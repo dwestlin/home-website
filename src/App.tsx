@@ -1,25 +1,28 @@
 import React from "react";
-import { Link } from "@reach/router";
-import { Header, Icon, Menu, Container } from "semantic-ui-react";
+import MenuBar from "./Components/MenuBar";
+import { Container } from "semantic-ui-react";
+import { BudgetExpenseProvider } from "./Contexts/Budget";
+import "semantic-ui-css/semantic.min.css";
+import { Router, RouteComponentProps } from "@reach/router";
+import HomePage from "./Pages/Home";
+import BudgetPage from "./Pages/Budget";
+import RecipePage from "./Components/Recipe/RecipePage";
 
-export default function App(props: any): JSX.Element {
+const RouterPage = (
+  props: { pageComponent: JSX.Element } & RouteComponentProps
+) => props.pageComponent;
+
+export default function App(): JSX.Element {
   return (
-    <Container>
-      <Header as="h1" icon textAlign="center">
-        <Icon name="blind" circular />
-        <Menu inverted>
-          <Menu.Item>
-            <Link to="/">Start</Link>
-          </Menu.Item>
-          <Menu.Item>
-            <Link to="/expense">Ekonomi</Link>
-          </Menu.Item>
-          <Menu.Item>
-            <Link to="/recipe">Recept</Link>
-          </Menu.Item>
-        </Menu>
-      </Header>
-      {props.children}
-    </Container>
+    <BudgetExpenseProvider>
+      <Container>
+        <MenuBar />
+        <Router>
+          <RouterPage pageComponent={<HomePage />} path="/" />
+          <RouterPage pageComponent={<BudgetPage />} path="/budget" />
+          <RouterPage pageComponent={<RecipePage />} path="/recipe" />
+        </Router>
+      </Container>
+    </BudgetExpenseProvider>
   );
 }

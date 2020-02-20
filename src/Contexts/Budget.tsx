@@ -1,13 +1,13 @@
 import React from "react";
-import { IExpenseState, IExpenseAction } from "../Interface";
+import { IBudgetState, IBudgetAction } from "../Interface";
 
-const initialState: IExpenseState = {
+const initialState: IBudgetState = {
   expenses: []
 };
 
-export const Expense = React.createContext<IExpenseState | any>(initialState);
+export const Budget = React.createContext<IBudgetState | any>(initialState);
 
-function reducer(state: IExpenseState, action: IExpenseAction): IExpenseState {
+function reducer(state: IBudgetState, action: IBudgetAction): IBudgetState {
   switch (action.type) {
     case "ADD":
       return { ...state, expenses: [...state.expenses, action.payload] };
@@ -20,11 +20,11 @@ function reducer(state: IExpenseState, action: IExpenseAction): IExpenseState {
   }
 }
 
-export function ExpenseProvider({
+export function BudgetExpenseProvider({
   children
 }: JSX.ElementChildrenAttribute): JSX.Element {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   return (
-    <Expense.Provider value={{ state, dispatch }}>{children}</Expense.Provider>
+    <Budget.Provider value={{ state, dispatch }}>{children}</Budget.Provider>
   );
 }

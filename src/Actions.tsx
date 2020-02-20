@@ -1,7 +1,4 @@
-import { IExpense } from "./Interface";
-import { db } from "./Database/Firestore";
-import React from "react";
-import { Header, Segment, Card, Statistic } from "semantic-ui-react";
+import db from "./Database/Firestore";
 
 export const fetchData = (dispatch: any): any => {
   const expenseData: any = [];
