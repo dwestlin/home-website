@@ -13,7 +13,6 @@ export default function BudgetPage(): JSX.Element {
   const { state, dispatch } = React.useContext(Budget);
 
   React.useEffect(() => {
-    console.log("useEffect ran");
     const unsubscribe: any = db
       .collection("expenses")
       .orderBy("name", "asc")

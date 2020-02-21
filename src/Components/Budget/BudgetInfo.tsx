@@ -26,8 +26,8 @@ export default function BudgetInfo() {
     },
     {
       id: 2,
-      headerValue: "Utgifter",
-      metaValue: "Totala utgifter för hushållet",
+      header: "Utgifter",
+      meta: "Totala utgifter för hushållet",
       transaction: totalExpense
     }
   ];
