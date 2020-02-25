@@ -1,30 +1,22 @@
-import React from "react";
-
-import { Button, Form, Grid, Segment } from "semantic-ui-react";
+import React, { Fragment } from "react";
+import LoginPage from "./Login";
+import { AuthContext } from "../Contexts/Auth";
 
 export default function HomePage(): JSX.Element {
+  const { state } = React.useContext(AuthContext);
+  React.useEffect(() => {}, [state.isAuthenticated]);
+
   return (
-    <Grid textAlign="center">
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Form size="large">
-          <Segment stacked>
-            <Form.Input
-              icon="user"
-              iconPosition="left"
-              placeholder="E-mail address"
-            />
-            <Form.Input
-              icon="lock"
-              iconPosition="left"
-              placeholder="Password"
-              type="password"
-            />
-            <Button fluid size="large">
-              Login
-            </Button>
-          </Segment>
-        </Form>
-      </Grid.Column>
-    </Grid>
+    <Fragment>
+      {localStorage.getItem("user") ? (
+        `Välkommen ${
+          state.user
+            ? state.user.email
+            : localStorage.getItem("user")!.replace(/"/g, "")
+        }`
+      ) : (
+        <LoginPage />
+      )}
+    </Fragment>
   );
 }

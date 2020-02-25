@@ -1,8 +1,8 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
+import "firebase/auth";
 
-//Your web app's Firebase configuration
-var firebaseConfig = {
+const app = firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIRESTORE_API_KEY,
   authDomain: process.env.REACT_APP_FIRESTORE_authDomain,
   databaseURL: process.env.REACT_APP_FIRESTORE_databaseURL,
@@ -11,10 +11,6 @@ var firebaseConfig = {
   messagingSenderId: process.env.REACT_APP_FIRESTORE_messagingSenderId,
   appId: process.env.REACT_APP_FIRESTORE_appId,
   measurementId: process.env.REACT_APP_FIRESTORE_measurementId
-};
+});
 
-firebase.initializeApp(firebaseConfig);
-
-const db = firebase.firestore();
-
-export default db;
+export default app;

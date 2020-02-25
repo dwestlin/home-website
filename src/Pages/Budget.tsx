@@ -3,7 +3,7 @@ import { Grid, Divider, Header, Segment, Card } from "semantic-ui-react";
 
 import { Budget } from "../Contexts/Budget";
 import { IBudget } from "../Interface";
-import db from "../Database/Firestore";
+import app from "../Database/Firebase";
 
 import BudgetForm from "../Components/Budget/BudgetForm";
 import BudgetInfo from "../Components/Budget/BudgetInfo";
@@ -13,9 +13,10 @@ export default function BudgetPage(): JSX.Element {
   const { state, dispatch } = React.useContext(Budget);
 
   React.useEffect(() => {
-    const unsubscribe: any = db
+    const unsubscribe: any = app
+      .firestore()
       .collection("expenses")
-      .orderBy("name", "asc")
+      .orderBy("type", "asc")
       .get()
       .then(snapshot => {
         const newExpenses = snapshot.docs.map(doc => ({
@@ -36,8 +37,8 @@ export default function BudgetPage(): JSX.Element {
       <Grid.Column column={3}>
         <Header as="h1">Lägg till transaktion</Header>
         <BudgetForm />
+        <Divider hidden />
         <Card.Group>
-          <Divider hidden />
           {state.expenses &&
             state.expenses.map((exp: IBudget) => (
               <BudgetTransaction key={exp.id} post={exp} />

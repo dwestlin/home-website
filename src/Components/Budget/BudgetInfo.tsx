@@ -6,15 +6,16 @@ import { Card, Statistic } from "semantic-ui-react";
 export default function BudgetInfo() {
   const { state } = useContext(Budget);
 
-  let totalIncome = state.expenses
-    .filter((expense: any) => expense.type === "Inkomst")
-    .reduce((sum: IBudget, d: any) => {
-      return sum + d.amount;
+  let income = state.expenses
+    .filter((income: any) => income.type === "Inkomst")
+    .reduce((sum: IBudget, item: any) => {
+      return (sum += item.amount);
     }, 0);
-  let totalExpense = state.expenses
+
+  const expense = state.expenses
     .filter((expense: any) => expense.type === "Utgift")
-    .reduce((sum: IBudget, d: any) => {
-      return sum + d.amount;
+    .reduce((sum: IBudget, item: any) => {
+      return (sum += item.amount);
     }, 0);
 
   let budgetInformation = [
@@ -22,13 +23,13 @@ export default function BudgetInfo() {
       id: 1,
       header: "Inkomster",
       meta: "Totala inkomster för hushållet",
-      transaction: totalIncome
+      transaction: income
     },
     {
       id: 2,
       header: "Utgifter",
       meta: "Totala utgifter för hushållet",
-      transaction: totalExpense
+      transaction: expense
     }
   ];
 
