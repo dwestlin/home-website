@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useCallback } from "react";
 import app from "../Database/Firebase";
+import { Redirect } from "react-router-dom";
 
 const initialState: any = {
   user: null,
@@ -11,7 +12,7 @@ export const AuthContext = React.createContext(initialState);
 function reducer(state: any, action: any): any {
   switch (action.type) {
     case "LOGIN":
-      return { ...state, isAuthenticated: true, user: action.payload.user };
+      return { ...state, isAuthenticated: true, user: action.payload };
     case "LOGOUT":
       return { ...state, isAuthenticated: false, user: null };
     default:
@@ -34,9 +35,7 @@ export function AuthProvider({ children }: JSX.ElementChildrenAttribute): any {
         localStorage.removeItem("user");
       }
     });
-    return () => {
-      return unsubscribe();
-    };
+    return () => unsubscribe();
   }, [state]);
 
   function logout() {
@@ -45,8 +44,30 @@ export function AuthProvider({ children }: JSX.ElementChildrenAttribute): any {
     dispatch({ type: "LOGOUT" });
   }
 
+  const login = useCallback(
+    async event => {
+      event.preventDefault();
+
+      const { email, password } = event.target.elements;
+
+      try {
+        let user = await app
+          .auth()
+          .signInWithEmailAndPassword(email.value, password.value);
+
+        let data = await app.auth().currentUser?.getIdToken();
+        console.log(data);
+        dispatch({ type: "LOGIN", payload: data });
+        return <Redirect to="/" />;
+      } catch (error) {
+        alert(error);
+      }
+    },
+    [dispatch]
+  );
+
   return (
-    <AuthContext.Provider value={{ state, dispatch, logout }}>
+    <AuthContext.Provider value={{ state, dispatch, logout, login }}>
       {children}
     </AuthContext.Provider>
   );

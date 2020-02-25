@@ -9,7 +9,7 @@ import BudgetForm from "../Components/Budget/BudgetForm";
 import BudgetInfo from "../Components/Budget/BudgetInfo";
 import BudgetTransaction from "../Components/Budget/BudgetTransaction";
 
-export default function BudgetPage(): JSX.Element {
+export default function BudgetPage({ history }: any): JSX.Element {
   const { state, dispatch } = React.useContext(Budget);
 
   React.useEffect(() => {

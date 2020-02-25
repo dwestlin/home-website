@@ -1,13 +1,12 @@
 import React, { useCallback } from "react";
 import { withRouter } from "react-router";
 import app from "../Database/Firebase";
-import { Header, Form, Button, Grid, Segment } from "semantic-ui-react";
+import { Header, Form, Button, Grid } from "semantic-ui-react";
 
 const Signup = ({ history }: any) => {
   const handleSignup = useCallback(
     async event => {
       event.preventDefault();
-
       const { email, password } = event.target.elements;
 
       try {
@@ -16,7 +15,7 @@ const Signup = ({ history }: any) => {
           .createUserWithEmailAndPassword(email.value, password.value);
         history.push("/");
       } catch (error) {
-        alert(error);
+        console.log(error);
       }
     },
     [history]
