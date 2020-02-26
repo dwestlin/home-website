@@ -20,7 +20,7 @@ export default function App(): JSX.Element {
         <Container>
           <Router>
             <MenuBar />
-            <Route exact path="/" component={HomePage} />
+            <Route exact path="/" component={BudgetPage} />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/budget" component={BudgetPage} />
             <Route exact path="/signup" component={SignupPage} />
