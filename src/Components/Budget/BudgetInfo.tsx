@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Budget } from "../../Contexts/Budget";
+import React, { useContext, Fragment } from "react";
+import { Budget } from "../../Contexts/BudgetContex";
 import { IBudget } from "../../Interface";
 import { Card, Statistic } from "semantic-ui-react";
 
@@ -18,7 +18,7 @@ export default function BudgetInfo() {
       return (sum += item.amount);
     }, 0);
 
-  let budgetInformation = [
+  const budgetInfo = [
     {
       id: 1,
       header: "Inkomster",
@@ -30,13 +30,19 @@ export default function BudgetInfo() {
       header: "Utgifter",
       meta: "Totala utgifter för hushållet",
       transaction: expense
+    },
+    {
+      id: 3,
+      header: "Differens",
+      meta: "Att leva på",
+      transaction: income - expense
     }
   ];
 
   return (
-    <>
+    <Fragment>
       <Card.Group centered>
-        {budgetInformation.map(post => {
+        {budgetInfo.map(post => {
           return (
             <Card key={post.id}>
               <Card.Content>
@@ -55,6 +61,6 @@ export default function BudgetInfo() {
           );
         })}
       </Card.Group>
-    </>
+    </Fragment>
   );
 }

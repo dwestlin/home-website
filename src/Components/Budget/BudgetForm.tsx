@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Form, Input, Button, Checkbox, Divider } from "semantic-ui-react";
-
-import { Budget } from "../../Contexts/Budget";
+import { Budget } from "../../Contexts/BudgetContex";
 
 export default function BudgetForm() {
   const { addTransactions } = useContext(Budget);
@@ -15,7 +14,7 @@ export default function BudgetForm() {
   const addTransaction = (e: any) => {
     e.preventDefault();
 
-    let data = {
+    const data = {
       name: name,
       amount: amount,
       type: checked ? "Inkomst" : "Utgift"

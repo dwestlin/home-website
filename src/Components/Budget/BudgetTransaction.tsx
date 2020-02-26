@@ -1,16 +1,12 @@
 import React, { useContext } from "react";
-import { Budget } from "../../Contexts/Budget";
+import { Budget } from "../../Contexts/BudgetContex";
 import { Button, Icon, Card } from "semantic-ui-react";
 
 export default function BudgetTransaction({ post }: any): JSX.Element {
   const { deleteTransaction } = useContext(Budget);
 
   return (
-    <Card
-      fluid
-      color={post.type === "Inkomst" ? "green" : "red"}
-      style={{ margin: 7 }}
-    >
+    <Card fluid color={post.type === "Inkomst" ? "green" : "red"}>
       <Card.Content>
         <Button
           color="red"
@@ -24,7 +20,8 @@ export default function BudgetTransaction({ post }: any): JSX.Element {
         </Button>
         <Card.Header>{post.name}</Card.Header>
         <Card.Meta>
-          {post.type === "Utgift" ? -post.amount : post.amount}kr
+          {post.type === "Utgift" ? "-" : ""}
+          {post.amount}kr
         </Card.Meta>
       </Card.Content>
     </Card>

@@ -14,7 +14,7 @@ export interface IBudgetAction {
   payload: Array<IBudget> | any;
 }
 
-export interface IExpenseProps {
+export interface IBudgetProps {
   expenses: IBudget[];
   store: { state: IBudgetState; dispatch: any };
 }

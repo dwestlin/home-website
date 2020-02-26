@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Divider, Header, Segment, Card } from "semantic-ui-react";
 
-import { Budget } from "../Contexts/Budget";
+import { Budget } from "../Contexts/BudgetContex";
 import { IBudget } from "../Interface";
 import app from "../Database/Firebase";
 
@@ -38,17 +38,16 @@ export default function BudgetPage({ history }: any): JSX.Element {
         <Header as="h1">Lägg till transaktion</Header>
         <BudgetForm />
         <Divider hidden />
-        <Card.Group>
-          {state.expenses &&
-            state.expenses.map((exp: IBudget) => (
-              <BudgetTransaction key={exp.id} post={exp} />
-            ))}
-        </Card.Group>
-        <Divider hidden />
         <Header as="h1" textAlign="center">
           Budget information
         </Header>
         <BudgetInfo />
+        <Card.Group>
+          {state.expenses.map((exp: IBudget) => (
+            <BudgetTransaction key={exp.id} post={exp} />
+          ))}
+        </Card.Group>
+        <Divider hidden />
       </Grid.Column>
     </Segment>
   );

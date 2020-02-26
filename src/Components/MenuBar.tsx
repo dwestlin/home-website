@@ -1,27 +1,27 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { Header, Icon, Menu } from "semantic-ui-react";
-import { AuthContext } from "../Contexts/Auth";
+import { AuthContext } from "../Contexts/AuthContext";
 
 export default function MenuBar() {
   const { logout } = React.useContext(AuthContext);
 
   return (
-    <Header size="large" icon textAlign="center">
+    <Header size="huge" icon textAlign="center">
       <Link to="/">
-        <Icon size="massive" name="blind" circular />
+        <Icon name="blind" />
       </Link>
 
       <Menu inverted>
+        <Menu.Item name="Ekonomi" as={Link} to="/budget" />
         {localStorage.getItem("user") ? (
-          <Fragment>
-            <Menu.Item name="Ekonomi" as={Link} to="/budget" />
-            <Menu.Item
-              position="right"
-              name="Logout"
-              onClick={() => logout()}
-            />
-          </Fragment>
+          <Menu.Item
+            position="right"
+            name="Logout"
+            as={Link}
+            to="/login"
+            onClick={() => logout()}
+          />
         ) : (
           <Menu.Item position="left" name="Login" as={Link} to="/login" />
         )}

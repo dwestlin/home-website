@@ -1,16 +1,11 @@
 import React from "react";
 
-import { AuthContext } from "../Contexts/Auth";
+import { AuthContext } from "../Contexts/AuthContext";
 import { Button, Form, Grid, Header, Message } from "semantic-ui-react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
-  const { login } = React.useContext(AuthContext);
-
-  if (localStorage.getItem("user")) {
-    return <Redirect to="/" />;
-  }
-
+  const { state, login } = React.useContext(AuthContext);
   return (
     <Grid textAlign="center">
       <Grid.Column style={{ maxWidth: 450 }}>
@@ -36,6 +31,7 @@ const LoginPage = () => {
         <Message>
           Not a member? <Link to="/signup">Sign up</Link>
         </Message>
+        {state.error && <Message negative>{state.error.message}</Message>}
       </Grid.Column>
     </Grid>
   );

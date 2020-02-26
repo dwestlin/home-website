@@ -1,22 +1,12 @@
 import React, { Fragment } from "react";
-import LoginPage from "./Login";
-import { AuthContext } from "../Contexts/Auth";
+import { Redirect } from "react-router-dom";
 
-export default function HomePage(): JSX.Element {
-  const { state } = React.useContext(AuthContext);
-  React.useEffect(() => {}, [state.isAuthenticated]);
+const HomePage = ({ history }: any): JSX.Element => {
+  if (!localStorage.getItem("user")) {
+    return <Redirect to="/login" />;
+  }
 
-  return (
-    <Fragment>
-      {localStorage.getItem("user") ? (
-        `Välkommen ${
-          state.user
-            ? state.user.email
-            : localStorage.getItem("user")!.replace(/"/g, "")
-        }`
-      ) : (
-        <LoginPage />
-      )}
-    </Fragment>
-  );
-}
+  return <Fragment>Välkommen</Fragment>;
+};
+
+export default HomePage;

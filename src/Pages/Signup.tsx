@@ -1,31 +1,16 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { withRouter } from "react-router";
-import app from "../Database/Firebase";
-import { Header, Form, Button, Grid } from "semantic-ui-react";
+
+import { Header, Form, Button, Grid, Message } from "semantic-ui-react";
+import { AuthContext } from "../Contexts/AuthContext";
 
 const Signup = ({ history }: any) => {
-  const handleSignup = useCallback(
-    async event => {
-      event.preventDefault();
-      const { email, password } = event.target.elements;
-
-      try {
-        await app
-          .auth()
-          .createUserWithEmailAndPassword(email.value, password.value);
-        history.push("/");
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    [history]
-  );
-
+  const { state, signup } = React.useContext(AuthContext);
   return (
     <Grid textAlign="center">
       <Grid.Column style={{ maxWidth: 450 }}>
         <Header as="h1">Sign up</Header>
-        <Form onSubmit={handleSignup} size="large">
+        <Form onSubmit={signup} size="large">
           <Form.Input
             name="email"
             icon="user"
@@ -44,6 +29,7 @@ const Signup = ({ history }: any) => {
             Sign up
           </Button>
         </Form>
+        {state.error && <Message negative>{state.error.message}</Message>}
       </Grid.Column>
     </Grid>
   );
