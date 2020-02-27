@@ -5,7 +5,7 @@ import "semantic-ui-css/semantic.min.css";
 
 import { BudgetProvider } from "./Contexts/BudgetContex";
 import { AuthProvider } from "./Contexts/AuthContext";
-import MenuBar from "./Components/MenuBar";
+import MenuBar from "./Pages/MenuBar";
 // import { PrivateRoute } from "./Components/PrivateRoute";
 
 import HomePage from "./Pages/Home";
